@@ -50,7 +50,7 @@ def recv_all_into(sock, buf):
             buf = buf[recv_res:]
         recv_res = sock.recv_into(buf)
         if not recv_res:
-            raise RecvError('socks-proxy socket is unexpectedly closed')
+            raise RecvError('SOCKS-proxy socket is unexpectedly closed')
 
 def socks_proxy_create_connection(
         address,
@@ -86,7 +86,7 @@ def socks_proxy_create_connection(
     
     sock = monkey_patch.original_create_connection(proxy_address, **proxy_kwargs)
     
-    # socks5: greeting phase
+    # SOCKS5: greeting phase
     
     sock.sendall(struct.pack(
             '!BBB',
@@ -100,12 +100,12 @@ def socks_proxy_create_connection(
     recv_data = struct.unpack('!BB', recv_data)
     
     if (recv_data[0] != 0x05):
-        raise FormatSocksProxyError('invalid socks-proxy format (socks5: greeting phase)')
+        raise FormatSocksProxyError('invalid SOCKS-proxy format (SOCKS5: greeting phase)')
     
     if (recv_data[1] != 0x00):
-        raise AuthSocksProxyError('invalid socks-proxy authorization (socks5: greeting phase)')
+        raise AuthSocksProxyError('invalid SOCKS-proxy authorization (SOCKS5: greeting phase)')
     
-    # socks5: command phase
+    # SOCKS5: command phase
     
     assert len(address) == 2
     assert isinstance(address[0], str)
@@ -135,7 +135,7 @@ def socks_proxy_create_connection(
     recv_data = struct.unpack('!BB', recv_data)
     
     if (recv_data[0] != 0x05):
-        raise FormatSocksProxyError('invalid socks-proxy format (socks5: command phase)')
+        raise FormatSocksProxyError('invalid SOCKS-proxy format (SOCKS5: command phase)')
     
     if (recv_data[1] != 0x00):
         error_descr = recv_data[1]
@@ -160,7 +160,7 @@ def socks_proxy_create_connection(
             error_descr = hex(recv_data[1])
         
         raise ConnectSocksProxyError(
-                'socks-proxy can not create connection: {!r} (socks5: command phase)'.format(
+                'SOCKS-proxy can not create connection: {!r} (SOCKS5: command phase)'.format(
                         error_descr,
                         ))
     
@@ -186,13 +186,13 @@ def socks_proxy_create_connection(
         host_recv_data = bytearray(16)
         recv_all_into(sock, host_recv_data)
     else:
-        raise FormatSocksProxyError('invalid socks-proxy format (socks5: command phase)')
+        raise FormatSocksProxyError('invalid SOCKS-proxy format (SOCKS5: command phase)')
     
     port_recv_data = bytearray(2)
     recv_all_into(sock, port_recv_data)
     recv_data = struct.unpack('!H', port_recv_data)
     
-    # socks5: end phase. connection is complete. tuning socket and return it
+    # SOCKS5: end phase. connection is complete. tuning socket and return it
     
     if timeout is not socket._GLOBAL_DEFAULT_TIMEOUT:
         sock.settimeout(timeout)
