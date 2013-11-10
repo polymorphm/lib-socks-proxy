@@ -23,6 +23,53 @@ Version for developer.
 Using
 -----
 
+Simple example of using:
+
+    $ cat EXAMPLE-1
+    #!/usr/bin/env python3
+    # -*- mode: python; coding: utf-8 -*-
+    
+    assert str is not bytes
+    
+    from lib_socks_proxy_2013_10_03 import monkey_patch as socks_proxy_monkey_patch
+    
+    # XXX ``monkey_patch()`` must be run before other imports
+    socks_proxy_monkey_patch.monkey_patch()
+    
+    from urllib import request as url_request
+    from lib_socks_proxy_2013_10_03 import socks_proxy_context
+    
+    if __name__ == '__main__':
+        opener = url_request.build_opener()
+        
+        with socks_proxy_context.socks_proxy_context(proxy_address=('127.0.0.1', 9050)):
+            res = opener.open('https://internet.yandex.com/get_full_info/', timeout=20.0)
+        
+        data = res.read(10000).decode()
+        
+        print(data)
+
+Result:
+
+    $ ./EXAMPLE-1
+
+    -------------------------------------------------------
+    Yandex internet.yandex.ru
+    -------------------------------------------------------
+    11.11.2013   03:45
+
+    #  Congratulations, you're online!  #
+
+    ip: 85.10.211.53
+    ipv6: -
+    This is Moscow
+
+
+    browser              : Unknown Unknown 
+    operating system     : Unknown Unknown 
+
+    cookies              : no
+
 Example of using with threads:
 
     $ cat EXAMPLE-2
