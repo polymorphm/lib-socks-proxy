@@ -87,7 +87,7 @@ def socks_proxy_create_connection(
     # socks5: greeting phase
     
     sock.sendall(struct.pack(
-            '!B!B!B',
+            '!BBB',
             0x05, # SOCKS version number (must be 0x05 for this version)
             0x01, # number of authentication methods supported
             0x00, # authentication methods: no authentication
@@ -95,7 +95,7 @@ def socks_proxy_create_connection(
     
     recv_data = bytearray(2)
     recv_all_into(sock, recv_data)
-    recv_data = struct.unpack('!B!B', recv_data)
+    recv_data = struct.unpack('!BB', recv_data)
     
     if (recv_data[0] != 0x05):
         raise FormatSocksProxyError('invalid socks-proxy format (socks5: greeting phase)')
@@ -112,7 +112,7 @@ def socks_proxy_create_connection(
     host_bytes = address[0].encode()
     sock.sendall(
             struct.pack(
-                    '!B!B!B!B!B',
+                    '!BBBBB',
                     0x05, # SOCKS version number (must be 0x05 for this version)
                     0x01, # establish a TCP/IP stream connection
                     0x00, # reserved, must be 0x00
@@ -130,7 +130,7 @@ def socks_proxy_create_connection(
     
     recv_data = bytearray(2)
     recv_all_into(sock, recv_data)
-    recv_data = struct.unpack('!B!B', recv_data)
+    recv_data = struct.unpack('!BB', recv_data)
     
     if (recv_data[0] != 0x05):
         raise FormatSocksProxyError('invalid socks-proxy format (socks5: command phase)')
@@ -164,7 +164,7 @@ def socks_proxy_create_connection(
     
     recv_data = bytearray(2)
     recv_all_into(sock, recv_data)
-    recv_data = struct.unpack('!B!B', recv_data)
+    recv_data = struct.unpack('!BB', recv_data)
     
     if recv_data[1] == 0x01:
         host_recv_type = 'ipv4'
