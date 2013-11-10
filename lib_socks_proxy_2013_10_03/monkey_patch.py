@@ -21,15 +21,18 @@ assert str is not bytes
 
 original_create_connection = None
 
+# threadsafe
 def assert_patched():
     assert original_create_connection is not None, \
             'socket.create_connection not patched yet'
 
+# threadsafe
 def patched_create_connection(*args, **kwargs):
     from . import socks_proxy_context
     
     return socks_proxy_context.context_create_connection(*args, **kwargs)
 
+# non threadsafe. must be run first, before other module imports
 def monkey_patch():
     # XXX careful import. nothing extra!
     
