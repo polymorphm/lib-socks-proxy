@@ -82,7 +82,6 @@ def socks_proxy_create_connection(
         proxy_kwargs['source_address'] = proxy_source_address
     
     sock = monkey_patch.original_create_connection(proxy_address, **proxy_kwargs)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
     
     # socks5: greeting phase
     
@@ -194,5 +193,7 @@ def socks_proxy_create_connection(
     
     if _CREATE_CONNECTION_DEFAULT_VALUE != timeout:
         sock.settimeout(timeout)
+    else:
+        sock.settimeout(socket.getdefaulttimeout())
     
     return sock
