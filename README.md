@@ -7,7 +7,7 @@ It is very small (poor) library, but it has next features:
 
 *   Certain сompatibility with other modules (including standard module ``urllib.request``).
 
-*   Not used global settings.
+*   Not used any global settings.
 
 *   Used context settings (Python keyword ``with``).
 
