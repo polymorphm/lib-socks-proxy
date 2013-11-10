@@ -1,7 +1,7 @@
 lib-socks-proxy
 ===============
 
-`lib-socks-proxy` -- it is a Python library for connection via SOCKS5-proxy.
+`lib-socks-proxy` -- it is a Python (Python-3.X) library for connection via SOCKS5-proxy.
 
 It is very small (poor) library, but it has next features:
 
