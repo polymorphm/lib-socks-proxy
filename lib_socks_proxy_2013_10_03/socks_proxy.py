@@ -53,8 +53,7 @@ def socks_proxy_create_connection(
         address,
         timeout=_CREATE_CONNECTION_DEFAULT_VALUE,
         source_address=_CREATE_CONNECTION_DEFAULT_VALUE,
-        **kwargs,
-        ):
+        **kwargs):
     monkey_patch.assert_patched()
     
     proxy_address = kwargs['proxy_address']

@@ -28,7 +28,7 @@ def assert_patched():
 def patched_create_connection(*args, **kwargs):
     from . import socks_proxy_context
     
-    return context_create_connection.context_create_connection(*args, **kwargs)
+    return socks_proxy_context.context_create_connection(*args, **kwargs)
 
 def monkey_patch():
     # XXX careful import. nothing extra!
