@@ -44,7 +44,6 @@ class AuthSocksProxyError(SocksProxyError):
 class ConnectSocksProxyError(SocksProxyError):
     pass
 
-# threadsafe
 def recv_all_into(sock, buf):
     buf = memoryview(buf)
     recv_res = 0
@@ -56,11 +55,9 @@ def recv_all_into(sock, buf):
         if not recv_res:
             raise RecvError('SOCKS-proxy socket is unexpectedly closed')
 
-# threadsafe
 def get_real_dest_address(sock):
     return _real_dest_address_map.get(sock)
 
-# threadsafe
 def socks_proxy_create_connection(
         address,
         timeout=socket._GLOBAL_DEFAULT_TIMEOUT,

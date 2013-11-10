@@ -24,7 +24,6 @@ from . import socks_proxy
 
 _thread_local = threading.local()
 
-# threadsafe
 def get_socks_proxy_context_stack():
     try:
         socks_proxy_context_stack = _thread_local.socks_proxy_context_stack
@@ -33,7 +32,6 @@ def get_socks_proxy_context_stack():
     
     return socks_proxy_context_stack
 
-# threadsafe
 def context_create_connection(*args, **kwargs):
     monkey_patch.assert_patched()
     
@@ -51,7 +49,6 @@ def context_create_connection(*args, **kwargs):
     
     return socks_proxy.socks_proxy_create_connection(*args, **kwargs)
 
-# threadsafe
 @contextlib.contextmanager
 def socks_proxy_context(**kwargs):
     monkey_patch.assert_patched()
