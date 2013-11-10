@@ -13,6 +13,8 @@ It is very small (poor) library, but it has next features:
 
 *   Safe for multithreading.
 
+*   And of course IPv6 is supported.
+
 Status
 ------
 
