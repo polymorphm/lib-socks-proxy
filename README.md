@@ -39,7 +39,7 @@ Example of using:
     from lib_socks_proxy_2013_10_03 import socks_proxy_context
     
     def proxy_thread(ui_lock, proxy_address, url):
-        # make request with using socks proxy
+        # make request with using SOCKS proxy
         
         opener = url_request.build_opener()
         with socks_proxy_context.socks_proxy_context(proxy_address=proxy_address):
