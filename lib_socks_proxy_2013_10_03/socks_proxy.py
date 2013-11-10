@@ -47,12 +47,10 @@ def recv_all_into(sock, buf):
             buf = buf[recv_res:]
         recv_res = sock.recv_into(buf)
 
-_CREATE_CONNECTION_DEFAULT_VALUE = object()
-
 def socks_proxy_create_connection(
         address,
-        timeout=_CREATE_CONNECTION_DEFAULT_VALUE,
-        source_address=_CREATE_CONNECTION_DEFAULT_VALUE,
+        timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+        source_address=None,
         **kwargs):
     monkey_patch.assert_patched()
     
@@ -191,7 +189,7 @@ def socks_proxy_create_connection(
     
     # socks5: end phase. connection is complete. tuning socket and return it
     
-    if _CREATE_CONNECTION_DEFAULT_VALUE != timeout:
+    if timeout is not socket._GLOBAL_DEFAULT_TIMEOUT:
         sock.settimeout(timeout)
     else:
         sock.settimeout(socket.getdefaulttimeout())
