@@ -26,6 +26,9 @@ DEFAULT_PROXY_TIMEOUT = 60.0
 class SocksProxyError(Exception):
     pass
 
+class RecvError(SocksProxyError):
+    pass
+
 class ArgSocksProxyError(SocksProxyError):
     pass
 
@@ -46,6 +49,8 @@ def recv_all_into(sock, buf):
         if recv_res > 0:
             buf = buf[recv_res:]
         recv_res = sock.recv_into(buf)
+        if not recv_res:
+            raise RecvError('socks-proxy socket is unexpectedly closed')
 
 def socks_proxy_create_connection(
         address,
