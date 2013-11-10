@@ -17,11 +17,14 @@
 
 assert str is not bytes
 
+import weakref
 import struct
 import socket
 from . import monkey_patch
 
 DEFAULT_PROXY_TIMEOUT = 60.0
+
+_real_dest_address_map = weakref.WeakKeyDictionary()
 
 class SocksProxyError(Exception):
     pass
@@ -51,6 +54,9 @@ def recv_all_into(sock, buf):
         recv_res = sock.recv_into(buf)
         if not recv_res:
             raise RecvError('SOCKS-proxy socket is unexpectedly closed')
+
+def get_real_dest_address(sock):
+    return _real_dest_address_map.get(sock)
 
 def socks_proxy_create_connection(
         address,
@@ -190,7 +196,10 @@ def socks_proxy_create_connection(
     
     port_recv_data = bytearray(2)
     recv_all_into(sock, port_recv_data)
-    recv_data = struct.unpack('!H', port_recv_data)
+    port_recv_data = struct.unpack('!H', port_recv_data)
+    
+    _real_dest_address_map[sock] = \
+            host_recv_type, bytes(host_recv_data), port_recv_data[0]
     
     # SOCKS5: end phase. connection is complete. tuning socket and return it
     
