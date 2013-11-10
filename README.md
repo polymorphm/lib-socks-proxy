@@ -5,13 +5,13 @@ lib-socks-proxy
 
 It is very small (poor) library, but it has next features:
 
-    * Certain сompatibility with other modules (including standard module ``urllib.request``).
-    
-    * Not used global settings.
-    
-    * Used context settings (Python keyword ``with``).
-    
-    * Safe for multithreading.
+*   Certain сompatibility with other modules (including standard module ``urllib.request``).
+
+*   Not used global settings.
+
+*   Used context settings (Python keyword ``with``).
+
+*   Safe for multithreading.
 
 Status
 ------
