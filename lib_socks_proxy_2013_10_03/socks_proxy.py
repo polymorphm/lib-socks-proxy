@@ -113,26 +113,72 @@ def socks_proxy_create_connection(
     
     # SOCKS5: command phase
     
+    sock.sendall(
+            struct.pack(
+                    '!BBB',
+                    0x05, # SOCKS version number (must be 0x05 for this version)
+                    0x01, # establish a TCP/IP stream connection
+                    0x00, # reserved, must be 0x00
+                    ),
+            )
+    
     assert len(address) == 2
     assert isinstance(address[0], str)
     assert isinstance(address[1], int)
     
-    host_bytes = address[0].encode()
+    try:
+        host_ipv6 = socket.inet_pton(socket.AF_INET6, address[0])
+    except OSError:
+        host_ipv6 = None
+    try:
+        host_ipv4 = socket.inet_pton(socket.AF_INET, address[0])
+    except OSError:
+        host_ipv4 = None
+    
+    if host_ipv6 is not None:
+        # IPv6
+        
+        assert len(host_ipv6) == 16
+        
+        sock.sendall(
+                struct.pack(
+                        '!B',
+                        0x04, # address type: IPv6 address
+                        )
+                +
+                host_ipv6
+                )
+    elif host_ipv4 is not None:
+        # IPv4
+        
+        assert len(host_ipv4) == 4
+        
+        sock.sendall(
+                struct.pack(
+                        '!B',
+                        0x01, # address type: IPv4 address
+                        )
+                +
+                host_ipv4
+                )
+    else:
+        # Domain name
+        
+        host_bytes = address[0].encode()
+        sock.sendall(
+                struct.pack(
+                        '!BB',
+                        0x03, # address type: Domain name
+                        len(host_bytes), # Domain name length
+                        )
+                +
+                host_bytes
+                )
+    
     sock.sendall(
             struct.pack(
-                    '!BBBBB',
-                    0x05, # SOCKS version number (must be 0x05 for this version)
-                    0x01, # establish a TCP/IP stream connection
-                    0x00, # reserved, must be 0x00
-                    0x03, # address type: Domain name
-                    len(host_bytes), # Domain name length
-                    )
-            +
-            host_bytes
-            +
-            struct.pack(
                     '!H',
-                    address[1],
+                    address[1], # port number
                     )
             )
     
