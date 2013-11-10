@@ -45,7 +45,7 @@ def recv_all_into(sock, buf):
     while recv_res < len(buf):
         if recv_res > 0:
             buf = buf[recv_res:]
-        recv_res = sock.recv(buf)
+        recv_res = sock.recv_into(buf)
 
 _CREATE_CONNECTION_DEFAULT_VALUE = object()
 
@@ -193,6 +193,6 @@ def socks_proxy_create_connection(
     # socks5: end phase. connection is complete. tuning socket and return it
     
     if _CREATE_CONNECTION_DEFAULT_VALUE != timeout:
-        socket.settimeout(timeout)
+        sock.settimeout(timeout)
     
     return sock
