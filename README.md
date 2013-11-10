@@ -23,9 +23,9 @@ Beta version (0.1).
 Using
 -----
 
-Example of using:
+Example of using with threads:
 
-    $ cat EXAMPLE
+    $ cat EXAMPLE-2
     #!/usr/bin/env python3
     # -*- mode: python; coding: utf-8 -*-
     
@@ -90,7 +90,7 @@ Example of using:
 
 Result:
 
-    $ ./EXAMPLE
+    $ ./EXAMPLE-2
     *** BEGIN result of non_proxy_thread() ***
 
     -------------------------------------------------------
