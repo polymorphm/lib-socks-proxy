@@ -1,12 +1,22 @@
 lib-socks-proxy
 ===============
 
-`lib-socks-proxy` -- it is a library for connection via socks5-proxy.
+`lib-socks-proxy` -- it is a Python library for connection via SOCKS5-proxy.
+
+It is very small (poor) library, but it has next features:
+
+    * Certain сompatibility with other modules (including standard module ``urllib.request``).
+    
+    * Not used global settings.
+    
+    * Used context settings (Python keyword ``with``).
+    
+    * Safe for multithreading.
 
 Status
 ------
 
-version for developer.
+Version for developer.
 
 Using
 -----
