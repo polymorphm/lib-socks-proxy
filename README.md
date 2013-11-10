@@ -18,7 +18,7 @@ It is very small (poor) library, but it has next features:
 Status
 ------
 
-Version for developer.
+Beta version (0.1).
 
 Using
 -----
