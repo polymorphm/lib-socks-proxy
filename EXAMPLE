@@ -43,7 +43,7 @@ if __name__ == '__main__':
     proxy_thr = threading.Thread(
             target=lambda: proxy_thread(
                     ui_lock,
-                    ('127.0.0.1', 8080),
+                    ('127.0.0.1', 9050),
                     'https://internet.yandex.com/get_full_info/',
                     ),
             )

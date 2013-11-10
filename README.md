@@ -69,7 +69,7 @@ Example of using:
         proxy_thr = threading.Thread(
                 target=lambda: proxy_thread(
                         ui_lock,
-                        ('127.0.0.1', 8080),
+                        ('127.0.0.1', 9050),
                         'https://internet.yandex.com/get_full_info/',
                         ),
                 )
@@ -85,14 +85,16 @@ Example of using:
         
         proxy_thr.join()
         non_proxy_thr.join()
-    
+
+Result:
+
     $ ./EXAMPLE
     *** BEGIN result of non_proxy_thread() ***
 
     -------------------------------------------------------
     Yandex internet.yandex.ru
     -------------------------------------------------------
-    10.11.2013   19:31
+    11.11.2013   01:38
 
     #  Congratulations, you're online!  #
 
@@ -112,13 +114,13 @@ Example of using:
     -------------------------------------------------------
     Yandex internet.yandex.ru
     -------------------------------------------------------
-    10.11.2013   10:31
+    11.11.2013   01:38
 
     #  Congratulations, you're online!  #
 
-    ip: 184.72.82.63
+    ip: 204.124.83.130
     ipv6: -
-    This is Ashburn
+    This is Moscow
 
 
     browser              : Unknown Unknown 
