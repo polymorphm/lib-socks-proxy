@@ -13,7 +13,9 @@ It is very small (poor) library, but it has next features:
 
 *   Safe for multithreading.
 
-*   And of course IPv6 is supported.
+*   No stupid problem with ``IPv6`` or ``timeout``.
+
+*   No DNS-Leak when using Tor Project (or problems with ``.onion`` DNS-Zone).
 
 Status
 ------
