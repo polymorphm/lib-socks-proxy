@@ -17,10 +17,12 @@ It is very small (poor) library, but it has next features:
 
 *   No DNS-Leak when using Tor Project (or problems with ``.onion`` DNS-Zone).
 
+
 Status
 ------
 
-Version for developer.
+Developer version (git master branch).
+
 
 Using
 -----
