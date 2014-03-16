@@ -21,7 +21,7 @@ It is very small (poor) library, but it has next features:
 Status
 ------
 
-Developer version (git master branch).
+Beta version (0.2).
 
 
 Using
