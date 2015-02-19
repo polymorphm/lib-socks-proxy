@@ -28,8 +28,11 @@ from . import core_monkey_patch
 from .requests_support import requests_monkey_patch
 
 def monkey_patch():
+    # monkey patching of core
     core_monkey_patch.core_monkey_patch()
+    
     try:
+        # monkey patching of ``requests`` library
         requests_monkey_patch.requests_monkey_patch()
     except (ImportError, AttributeError):
         pass

@@ -32,6 +32,14 @@ def assert_patched():
             'requests.packages.urllib3.util.connection.create_connection not patched yet'
 
 def patched_create_connection(*args, **kwargs):
+    # original function is:
+    #       create_connection(
+    #               address,
+    #               timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+    #               source_address=None,
+    #               socket_options=None,
+    #               )
+    
     assert_patched()
     
     from .. import socks_proxy_context
@@ -62,7 +70,7 @@ def patched_create_connection(*args, **kwargs):
 def requests_monkey_patch():
     # XXX careful import. nothing extra!
     
-    import requests.packages.urllib3.util.connection as requests_connection
+    import requests.packages.urllib3.util.connection as requests_connection # or raise ImportError
     
     global original_create_connection
     global original_set_socket_options
@@ -70,6 +78,6 @@ def requests_monkey_patch():
     if original_create_connection is not None:
         return
     
-    original_create_connection = requests_connection.create_connection
-    original_set_socket_options = requests_connection._set_socket_options
+    original_create_connection = requests_connection.create_connection # or raise AttributeError
+    original_set_socket_options = requests_connection._set_socket_options # or raise AttributeError
     requests_connection.create_connection = patched_create_connection
