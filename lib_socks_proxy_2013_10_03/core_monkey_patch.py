@@ -39,12 +39,12 @@ def patched_create_connection(*args, **kwargs):
     socks_proxy_context_stack = socks_proxy_context.get_socks_proxy_context_stack()
     
     if not socks_proxy_context_stack:
-        return monkey_patch.original_create_connection(*args, **kwargs)
+        return original_create_connection(*args, **kwargs)
     
     socks_proxy_info = socks_proxy_context_stack[len(socks_proxy_context_stack) - 1]
     
     if socks_proxy_info is None:
-        return monkey_patch.original_create_connection(*args, **kwargs)
+        return original_create_connection(*args, **kwargs)
     
     kwargs.update(socks_proxy_info)
     
