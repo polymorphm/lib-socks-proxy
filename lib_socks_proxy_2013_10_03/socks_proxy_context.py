@@ -1,6 +1,6 @@
 # -*- mode: python; coding: utf-8 -*-
 #
-# Copyright (c) 2013, 2014 Andrej Antonov <polymorphm@gmail.com>.
+# Copyright (c) 2013, 2014, 2015 Andrej Antonov <polymorphm@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,6 @@ assert str is not bytes
 
 import threading
 import contextlib
-from . import monkey_patch
-from . import socks_proxy
 
 _thread_local = threading.local()
 
@@ -37,27 +35,8 @@ def get_socks_proxy_context_stack():
     
     return socks_proxy_context_stack
 
-def context_create_connection(*args, **kwargs):
-    monkey_patch.assert_patched()
-    
-    socks_proxy_context_stack = get_socks_proxy_context_stack()
-    
-    if not socks_proxy_context_stack:
-        return monkey_patch.original_create_connection(*args, **kwargs)
-    
-    socks_proxy_info = socks_proxy_context_stack[len(socks_proxy_context_stack) - 1]
-    
-    if socks_proxy_info is None:
-        return monkey_patch.original_create_connection(*args, **kwargs)
-    
-    kwargs.update(socks_proxy_info)
-    
-    return socks_proxy.socks_proxy_create_connection(*args, **kwargs)
-
 @contextlib.contextmanager
 def socks_proxy_context(**kwargs):
-    monkey_patch.assert_patched()
-    
     socks_proxy_context_stack = get_socks_proxy_context_stack()
     
     if kwargs:

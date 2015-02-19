@@ -1,6 +1,6 @@
 # -*- mode: python; coding: utf-8 -*-
 #
-# Copyright (c) 2013, 2014 Andrej Antonov <polymorphm@gmail.com>.
+# Copyright (c) 2013, 2014, 2015 Andrej Antonov <polymorphm@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,26 @@ def assert_patched():
             'socket.create_connection not patched yet'
 
 def patched_create_connection(*args, **kwargs):
-    from . import socks_proxy_context
+    assert_patched()
     
-    return socks_proxy_context.context_create_connection(*args, **kwargs)
+    from . import socks_proxy_context
+    from . import socks_proxy
+    
+    socks_proxy_context_stack = socks_proxy_context.get_socks_proxy_context_stack()
+    
+    if not socks_proxy_context_stack:
+        return monkey_patch.original_create_connection(*args, **kwargs)
+    
+    socks_proxy_info = socks_proxy_context_stack[len(socks_proxy_context_stack) - 1]
+    
+    if socks_proxy_info is None:
+        return monkey_patch.original_create_connection(*args, **kwargs)
+    
+    kwargs.update(socks_proxy_info)
+    
+    return socks_proxy.socks_proxy_create_connection(*args, **kwargs)
 
-def monkey_patch():
+def core_monkey_patch():
     # XXX careful import. nothing extra!
     
     import socket

@@ -1,6 +1,6 @@
 # -*- mode: python; coding: utf-8 -*-
 #
-# Copyright (c) 2013, 2014 Andrej Antonov <polymorphm@gmail.com>.
+# Copyright (c) 2013, 2014, 2015 Andrej Antonov <polymorphm@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ assert str is not bytes
 import weakref
 import struct
 import socket
-from . import monkey_patch
+from . import core_monkey_patch
 
 DEFAULT_PROXY_TIMEOUT = 60.0
 
@@ -68,7 +68,7 @@ def socks_proxy_create_connection(
         timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
         source_address=None,
         **kwargs):
-    monkey_patch.assert_patched()
+    core_monkey_patch.assert_patched()
     
     proxy_address = kwargs['proxy_address']
     proxy_timeout = kwargs.get('proxy_timeout')
@@ -95,7 +95,7 @@ def socks_proxy_create_connection(
     if proxy_source_address is not None:
         proxy_kwargs['source_address'] = proxy_source_address
     
-    sock = monkey_patch.original_create_connection(proxy_address, **proxy_kwargs)
+    sock = core_monkey_patch.original_create_connection(proxy_address, **proxy_kwargs)
     
     # SOCKS5: greeting phase
     
