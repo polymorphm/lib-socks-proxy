@@ -25,8 +25,11 @@ assert str is not bytes
 # this module provides shortcut for monkey patching of all
 
 from . import core_monkey_patch
-# TODO  need to import some others blahblahblah_monkey_patch
+from .requests_support import requests_monkey_patch
 
 def monkey_patch():
     core_monkey_patch.core_monkey_patch()
-    # TODO  need to run some others blahblahblah_monkey_patch()
+    try:
+        requests_monkey_patch.requests_monkey_patch()
+    except ImportError:
+        pass
