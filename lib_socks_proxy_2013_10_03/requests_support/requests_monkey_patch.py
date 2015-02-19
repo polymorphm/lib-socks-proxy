@@ -25,13 +25,7 @@ assert str is not bytes
 # XXX nothing import when initialising this module! it is important!
 
 original_create_connection = None
-
-def _set_socket_options(sock, options):
-    if options is None:
-        return
-    
-    for opt in options:
-        sock.setsockopt(*opt)
+original_set_socket_options = None
 
 def assert_patched():
     assert original_create_connection is not None, \
@@ -61,7 +55,7 @@ def patched_create_connection(*args, **kwargs):
         socket_options = None
     
     sock = socks_proxy.socks_proxy_create_connection(*args, **kwargs)
-    _set_socket_options(sock, socket_options)
+    original_set_socket_options(sock, socket_options)
     
     return sock
 
@@ -71,9 +65,11 @@ def requests_monkey_patch():
     import requests.packages.urllib3.util.connection as requests_connection
     
     global original_create_connection
+    global original_set_socket_options
     
     if original_create_connection is not None:
         return
     
     original_create_connection = requests_connection.create_connection
+    original_set_socket_options = requests_connection._set_socket_options
     requests_connection.create_connection = patched_create_connection
