@@ -24,6 +24,7 @@ assert str is not bytes
 
 import threading
 import contextlib
+from . import core_monkey_patch
 
 _thread_local = threading.local()
 
@@ -37,6 +38,8 @@ def get_socks_proxy_context_stack():
 
 @contextlib.contextmanager
 def socks_proxy_context(**kwargs):
+    core_monkey_patch.assert_patched()
+    
     socks_proxy_context_stack = get_socks_proxy_context_stack()
     
     if kwargs:
