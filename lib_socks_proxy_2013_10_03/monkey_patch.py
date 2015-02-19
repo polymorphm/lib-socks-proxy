@@ -31,5 +31,5 @@ def monkey_patch():
     core_monkey_patch.core_monkey_patch()
     try:
         requests_monkey_patch.requests_monkey_patch()
-    except ImportError:
+    except (ImportError, AttributeError):
         pass
