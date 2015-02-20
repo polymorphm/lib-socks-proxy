@@ -5,7 +5,8 @@ lib-socks-proxy
 
 It is very small (poor) library, but it has next features:
 
-*   Certain сompatibility with some modules (including standard module ``urllib.request``).
+*   Certain сompatibility with some modules (including standard module
+    ``urllib.request`` and third party module ``requests``).
 
 *   Not used any global settings.
 
