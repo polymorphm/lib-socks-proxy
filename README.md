@@ -22,7 +22,7 @@ It is very small (poor) library, but it has next features:
 Status
 ------
 
-Release: lib-socks-proxy-0.3.1 .
+Release: lib-socks-proxy-0.3.2 .
 
 
 Using
