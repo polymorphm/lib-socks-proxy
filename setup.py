@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
   name='lib_socks_proxy_2013_10_03',
-  version='master',
+  version='devel',
   maintainer='Andrej Antonov',
   maintainer_email='polymorphm@gmail.com',
   url='https://github.com/polymorphm/lib-socks-proxy',
